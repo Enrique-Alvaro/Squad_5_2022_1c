@@ -49,4 +49,16 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-jar { manifest { attributes 'Main-Class': 'com.squad_5.recursos.Recursos.RecursosApplication' } }
+jar {
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes(
+            'Class-Path': configurations.compileClasspath.files.collect {"$it.name"}.join(' '),
+            'Main-Class': 'com.squad_5.recursos.Recursos.RecursosApplication'
+        )}
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
