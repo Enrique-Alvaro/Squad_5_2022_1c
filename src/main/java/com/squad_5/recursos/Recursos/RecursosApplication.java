@@ -25,7 +25,6 @@ public class RecursosApplication {
 		Connection connection = getConnection();
 
 		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("CREATE TABLE test (col1 int)");
 		stmt.executeUpdate("INSERT INTO test (col1 10)");
 
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
