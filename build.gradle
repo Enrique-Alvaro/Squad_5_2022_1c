@@ -22,6 +22,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     testImplementation 'io.cucumber:cucumber-java:7.3.3'
     testImplementation 'io.cucumber:cucumber-junit:7.3.3'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+
 }
 
 test {
