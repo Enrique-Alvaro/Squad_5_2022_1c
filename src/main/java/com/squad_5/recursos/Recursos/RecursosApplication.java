@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 
 @Controller
 @SpringBootApplication
@@ -28,9 +26,15 @@ public class RecursosApplication {
 
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate("CREATE TABLE test (col1 int)");
+		stmt.executeUpdate("INSERT INTO test (col1 10)");
 
+		ArrayList<Integer> numeros = new ArrayList<Integer>();
+		ResultSet rs = stmt.executeQuery("FROM * FROM test");
+		while (rs.next()) {
+			numeros.add(rs.getInt("col1"));
+		}
 
-		return "Hello World!";
+		return "Hello World!" + numeros;
 	}
 
 	public static void main(String[] args) {
