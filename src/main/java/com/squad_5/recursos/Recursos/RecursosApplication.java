@@ -25,10 +25,10 @@ public class RecursosApplication {
 		Connection connection = getConnection();
 
 		Statement stmt = connection.createStatement();
-		stmt.executeUpdate("INSERT INTO test (col1 10)");
+		stmt.executeUpdate("INSERT INTO test (col1) VALUES (10)");
 
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
-		ResultSet rs = stmt.executeQuery("FROM * FROM test");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM test");
 		while (rs.next()) {
 			numeros.add(rs.getInt("col1"));
 		}
