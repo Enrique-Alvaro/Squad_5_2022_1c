@@ -16,6 +16,10 @@ public class RecursosApplication {
 
 	private static Connection getConnection() throws URISyntaxException, SQLException {
 		String dbUrl = System.getenv("JDBC_DATABASE_URL");
+		// Si el ENV VAR es null, estamos en desarrolo local y usamos SQLite
+		if (dbUrl == null) {
+			return DriverManager.getConnection("jdbc:sqlite:db/local.db");
+		}
 		return DriverManager.getConnection(dbUrl);
 	}
 
@@ -25,6 +29,7 @@ public class RecursosApplication {
 		Connection connection = getConnection();
 
 		Statement stmt = connection.createStatement();
+		stmt.executeUpdate("CREATE TABLE IF NOT EXISTS test ( col1 INTEGER );");
 		stmt.executeUpdate("INSERT INTO test (col1) VALUES (10)");
 
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
