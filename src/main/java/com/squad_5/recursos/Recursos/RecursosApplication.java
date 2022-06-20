@@ -22,7 +22,7 @@ public class RecursosApplication {
 		}
 		return DriverManager.getConnection(dbUrl);
 	}
-
+	// ...
 	@RequestMapping("/")
 	@ResponseBody
 	String home() throws SQLException, URISyntaxException {
