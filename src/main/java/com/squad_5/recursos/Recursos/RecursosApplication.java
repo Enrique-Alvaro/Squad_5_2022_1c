@@ -6,9 +6,7 @@ import com.squad_5.recursos.Recursos.Services.HorasDiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -51,4 +49,19 @@ public class RecursosApplication {
 	public List<HorasDia> getHoras() {
 		return horasDiaService.listAll();
 	}
+
+	@PostMapping(value="/horas")
+	public void createHoras(@RequestBody HorasDia horasDia) {
+		horasDiaService.create(horasDia);
+	}
+
+	/*
+	Para cuando nos pidan un request especifico
+
+	@GetMapping(value="/horas")
+	public List<HorasDia> getHoras(@RequestBody HorasRequest horasRequest) {
+		return;
+	}
+	*/
+
 }

@@ -16,4 +16,8 @@ public class HorasDiaService {
     public List<HorasDia> listAll() {
         return repo.findAll();
     }
+
+    public void create(HorasDia nuevaHoras) {
+        repo.save(nuevaHoras);
+    }
 }
