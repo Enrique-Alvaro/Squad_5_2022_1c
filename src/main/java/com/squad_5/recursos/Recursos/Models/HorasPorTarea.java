@@ -13,7 +13,6 @@ public class HorasPorTarea {
             nullable = false
     )
     Long codigoTarea;
-    @Id
     @Column(
             name = "codigo_horas_dia",
             nullable = false
