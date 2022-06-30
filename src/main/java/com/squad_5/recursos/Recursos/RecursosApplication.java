@@ -19,14 +19,6 @@ public class RecursosApplication {
 		SpringApplication.run(RecursosApplication.class, args);
 	}
 
-	/*
-	@GetMapping(value = "/horasDia")
-	public List<HorasDia> getHorasDia(HorasDiaRepository horasDiaRepository) {
-		return horasDiaRepository.findAll();
-	}
-	 */
-	@Autowired
-	HorasDiaService horasDiaService;
 
 	@GetMapping(value="/recursos")
 	@ResponseBody
@@ -38,30 +30,29 @@ public class RecursosApplication {
 
 		return result;
 	}
+	/*
 
-	@GetMapping(value="")
-	@ResponseBody
-	public String home() {
-		return "Hello World!";
-	}
+	RUTAS QUE HAY QUE IMPLEMENTAR!!!!!
 
-	@GetMapping(value="/horas")
-	public List<HorasDia> getHoras() {
-		return horasDiaService.listAll();
+	@GetMapping(value="/horas/{id}")
+	public List<Horas> getHorasConID(@PathVariable long id) {
+
 	}
 
 	@PostMapping(value="/horas")
-	public void createHoras(@RequestBody HorasDia horasDia) {
-		horasDiaService.create(horasDia);
+	public Horas createHoras(@RequestBody Horas horas) {
+
 	}
 
-	/*
-	Para cuando nos pidan un request especifico
+	@PostMapping(value="/horas{id}")
+	public Horas updateHoras(@PathVariable long id, @RequestBody Horas horas) {
 
-	@GetMapping(value="/horas")
-	public List<HorasDia> getHoras(@RequestBody HorasRequest horasRequest) {
-		return;
 	}
+
+	@DeleteMapping(value="/horas{id}")
+	public void deleteHoras(@PathVariable long id) {
+
+	}
+
 	*/
-
 }
