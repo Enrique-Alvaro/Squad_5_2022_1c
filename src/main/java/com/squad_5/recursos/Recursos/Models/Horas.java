@@ -29,16 +29,10 @@ public class Horas {
     private Integer horasTrabajadas;
 
     @Column(
-            name = "fecha_dia",
-            nullable = false
-    )
-    private Date fechaDia;
-
-    @Column(
             name = "cuit",
             nullable = false
     )
-    private Long CUIT;
+    private Long cuit;
 
     @Column(
             name = "codigo_tarea",
@@ -52,4 +46,17 @@ public class Horas {
     )
     Long codigoProyecto;
 
+    public Horas() {
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public Horas(Long cuit, Integer horasTrabajadas, Long codigoTarea, Long codigoProyecto) {
+        this.cuit = cuit;
+        this.horasTrabajadas = horasTrabajadas;
+        this.codigoTarea = codigoTarea;
+        this.codigoProyecto = codigoProyecto;
+    }
 }
