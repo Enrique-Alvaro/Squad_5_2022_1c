@@ -38,8 +38,8 @@ public class RecursosApplication {
 		return horasService.updateHoras(horas);
 	}
 
-	@DeleteMapping(value="/horas")
-	public void deleteHoras(@RequestBody Long id) {
+	@DeleteMapping(value="/horas/{id}")
+	public void deleteHoras(@PathVariable long id) {
 		horasService.deleteHoras(id);
 	}
 }

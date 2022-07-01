@@ -38,7 +38,6 @@ public class HorasService {
 
     public Horas updateHoras(Horas horas) {
         if (repository.findById(horas.getId()).isPresent()) {
-            repository.deleteById(horas.getId());
             return repository.save(horas);
         }
         return null;

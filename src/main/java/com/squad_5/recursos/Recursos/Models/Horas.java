@@ -1,5 +1,7 @@
 package com.squad_5.recursos.Recursos.Models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -26,25 +28,25 @@ public class Horas {
             name = "horas_trabajadas",
             nullable = false
     )
-    private Integer horasTrabajadas;
+    public Integer horasTrabajadas;
 
     @Column(
             name = "cuit",
             nullable = false
     )
-    private Long cuit;
+    public Long cuit;
 
     @Column(
             name = "codigo_tarea",
             nullable = false
     )
-    Long codigoTarea;
+    public Long codigoTarea;
 
     @Column(
             name = "codigo_proyecto",
             nullable = false
     )
-    Long codigoProyecto;
+    public Long codigoProyecto;
 
     public Horas() {
     }
