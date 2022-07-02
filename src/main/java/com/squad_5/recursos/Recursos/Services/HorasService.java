@@ -1,16 +1,13 @@
 package com.squad_5.recursos.Recursos.Services;
-
 import com.squad_5.recursos.Recursos.Models.Horas;
 import com.squad_5.recursos.Recursos.Models.HorasACargarDTO;
 import com.squad_5.recursos.Recursos.Repositories.HorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class HorasService {
-
     @Autowired
     private HorasRepository repository;
 
@@ -27,7 +24,6 @@ public class HorasService {
         return repository.save(nuevaHoras);
     }
 
-
     public List<Horas> getHorasbyCuit(Long cuit) {
         return repository.getHorasByCuit(cuit);
     }
@@ -36,8 +32,9 @@ public class HorasService {
         repository.deleteById(id);
     }
 
-    public Horas updateHoras(Horas horas) {
-        if (repository.findById(horas.getId()).isPresent()) {
+    public Horas updateHoras(Long id, Horas horas) {
+        if (repository.findById(id).isPresent()) {
+            horas.setId(id);
             return repository.save(horas);
         }
         return null;

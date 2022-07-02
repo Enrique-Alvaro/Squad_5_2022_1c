@@ -15,4 +15,5 @@ public class HorasACargarDTO {
         this.codigoTarea = codigoTarea;
         this.codigoProyecto = codigoProyecto;
     }
+
 }

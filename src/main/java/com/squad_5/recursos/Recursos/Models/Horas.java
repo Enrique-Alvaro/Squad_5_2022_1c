@@ -1,13 +1,8 @@
 package com.squad_5.recursos.Recursos.Models;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
-import java.sql.Date;
 
 @Entity(name="horas")
 public class Horas {
-
     @Id
     @SequenceGenerator(
             name = "horas_sequence",
@@ -18,41 +13,30 @@ public class Horas {
             strategy = GenerationType.SEQUENCE,
             generator = "horas_sequence"
     )
-    @Column(
-            name = "id",
-            updatable = false
-    )
     private Long id;
 
     @Column(
-            name = "horas_trabajadas",
-            nullable = false
+            name = "horas_trabajadas"
     )
     public Integer horasTrabajadas;
 
-    @Column(
-            name = "cuit",
-            nullable = false
-    )
     public Long cuit;
 
     @Column(
-            name = "codigo_tarea",
-            nullable = false
+            name = "codigo_tarea"
     )
     public Long codigoTarea;
 
     @Column(
-            name = "codigo_proyecto",
-            nullable = false
+            name = "codigo_proyecto"
     )
     public Long codigoProyecto;
 
     public Horas() {
     }
 
-    public Long getId() {
-        return this.id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Horas(Long cuit, Integer horasTrabajadas, Long codigoTarea, Long codigoProyecto) {
@@ -61,4 +45,5 @@ public class Horas {
         this.codigoTarea = codigoTarea;
         this.codigoProyecto = codigoProyecto;
     }
+
 }
