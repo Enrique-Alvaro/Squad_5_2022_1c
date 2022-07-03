@@ -3,10 +3,10 @@ package com.squad_5.recursos.Recursos.Models;
 import java.time.LocalDate;
 
 public class HorasACargarDTO {
-    public Integer horasTrabajadas;
-    public Long cuit;
-    public Long codigoTarea;
-    public Long codigoProyecto;
+    public int horasTrabajadas;
+    public int legajo;
+    public int codigoTarea;
+    public int codigoProyecto;
     public String detalle;
     public LocalDate fecha;
     public String nombre;
@@ -14,9 +14,9 @@ public class HorasACargarDTO {
     public HorasACargarDTO() {
     }
 
-    public HorasACargarDTO(Integer horasTrabajadas, Long cuit, Long codigoTarea, Long codigoProyecto, String detalle, LocalDate fecha, String nombre) {
+    public HorasACargarDTO(int horasTrabajadas, int legajo, int codigoTarea, int codigoProyecto, String detalle, LocalDate fecha, String nombre) {
         this.horasTrabajadas = horasTrabajadas;
-        this.cuit = cuit;
+        this.legajo = legajo;
         this.codigoTarea = codigoTarea;
         this.codigoProyecto = codigoProyecto;
         this.detalle = detalle;

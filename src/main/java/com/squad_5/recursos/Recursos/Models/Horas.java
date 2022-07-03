@@ -14,20 +14,20 @@ public class Horas {
             strategy = GenerationType.SEQUENCE,
             generator = "horas_sequence"
     )
-    public Long id;
+    public int id;
     @Column(
             name = "horas_trabajadas"
     )
-    public Integer horasTrabajadas;
-    public Long cuit;
+    public int horasTrabajadas;
+    public int legajo;
     @Column(
             name = "codigo_tarea"
     )
-    public Long codigoTarea;
+    public int codigoTarea;
     @Column(
             name = "codigo_proyecto"
     )
-    public Long codigoProyecto;
+    public int codigoProyecto;
 
     public String detalle;
     public LocalDate fecha;
@@ -36,13 +36,17 @@ public class Horas {
     public Horas() {
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Horas(Long cuit, Integer horasTrabajadas, Long codigoTarea, Long codigoProyecto, String detalle, LocalDate fecha, String nombre) {
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Horas(int legajo, int horasTrabajadas, int codigoTarea, int codigoProyecto, String detalle, LocalDate fecha, String nombre) {
         this.horasTrabajadas = horasTrabajadas;
-        this.cuit = cuit;
+        this.legajo = legajo;
         this.codigoTarea = codigoTarea;
         this.codigoProyecto = codigoProyecto;
         this.detalle = detalle;
