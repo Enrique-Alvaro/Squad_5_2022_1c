@@ -6,6 +6,7 @@ import com.squad_5.recursos.Recursos.Repositories.HorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HorasService {
@@ -60,11 +61,36 @@ public class HorasService {
     }
 
     public Horas updateHoras(int id, Horas horas) {
-        if (repository.findById(id).isPresent()) {
-            horas.setId(id);
-            return repository.save(horas);
+        if (!repository.findById(id).isPresent()) {
+            return null;
         }
-        return null;
+
+        Horas unRegistro = repository.findById(id).orElseThrow(()-> new IllegalStateException("Student with id " + id + " does not exist."));
+
+        if(horas.horasTrabajadas != 0){
+            unRegistro.horasTrabajadas = horas.horasTrabajadas;
+        }
+        if(horas.legajo != 0){
+            unRegistro.legajo = horas.legajo;
+        }
+        if(horas.codigoTarea != 0){
+            unRegistro.codigoTarea = horas.codigoTarea;
+        }
+        if(horas.codigoProyecto != 0){
+            unRegistro.codigoProyecto = horas.codigoProyecto;
+        }
+        if(horas.detalle != null){
+            unRegistro.detalle = horas.detalle;
+        }
+        if(horas.fecha != null){
+            unRegistro.fecha = horas.fecha;
+        }
+        if(horas.nombre != null){
+            unRegistro.nombre = horas.nombre;
+        }
+
+        return repository.save(unRegistro);
+
     }
 
 }
