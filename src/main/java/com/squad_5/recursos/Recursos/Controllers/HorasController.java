@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "api/horas")
 public class HorasController {
@@ -18,8 +19,8 @@ public class HorasController {
     }
 
     @GetMapping(value="{id}")
-    public List<Horas> getHorasConID(@PathVariable("id") long id) {
-        return horasService.getHorasbyCuit(id);
+    public List<Horas> getHorasConID(@PathVariable("id") int legajo) {
+        return horasService.getHorasByLegajo(legajo);
     }
 
     @PostMapping()
@@ -28,12 +29,12 @@ public class HorasController {
     }
 
     @PutMapping(value="{id}")
-    public Horas updateHoras(@PathVariable("id") long id, @RequestBody Horas horas) {
+    public Horas updateHoras(@PathVariable("id") int id, @RequestBody Horas horas) {
         return horasService.updateHoras(id, horas);
     }
 
     @DeleteMapping(value="{id}")
-    public void deleteHoras(@PathVariable long id) {
+    public void deleteHoras(@PathVariable int id) {
         horasService.deleteHoras(id);
     }
 
