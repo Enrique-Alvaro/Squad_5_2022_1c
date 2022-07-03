@@ -19,7 +19,10 @@ public class HorasService {
         Horas nuevaHoras = new Horas(datos.cuit,
                                     datos.horasTrabajadas,
                                     datos.codigoTarea,
-                                    datos.codigoProyecto
+                                    datos.codigoProyecto,
+                                    datos.detalle,
+                                    datos.fecha,
+                                    datos.nombre
         );
         return repository.save(nuevaHoras);
     }

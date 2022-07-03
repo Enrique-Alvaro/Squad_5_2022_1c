@@ -1,5 +1,6 @@
 package com.squad_5.recursos.Recursos.Models;
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity(name="horas")
 public class Horas {
@@ -13,24 +14,24 @@ public class Horas {
             strategy = GenerationType.SEQUENCE,
             generator = "horas_sequence"
     )
-    private Long id;
-
+    public Long id;
     @Column(
             name = "horas_trabajadas"
     )
     public Integer horasTrabajadas;
-
     public Long cuit;
-
     @Column(
             name = "codigo_tarea"
     )
     public Long codigoTarea;
-
     @Column(
             name = "codigo_proyecto"
     )
     public Long codigoProyecto;
+
+    public String detalle;
+    public LocalDate fecha;
+    public String nombre;
 
     public Horas() {
     }
@@ -39,11 +40,14 @@ public class Horas {
         this.id = id;
     }
 
-    public Horas(Long cuit, Integer horasTrabajadas, Long codigoTarea, Long codigoProyecto) {
-        this.cuit = cuit;
+    public Horas(Long cuit, Integer horasTrabajadas, Long codigoTarea, Long codigoProyecto, String detalle, LocalDate fecha, String nombre) {
         this.horasTrabajadas = horasTrabajadas;
+        this.cuit = cuit;
         this.codigoTarea = codigoTarea;
         this.codigoProyecto = codigoProyecto;
+        this.detalle = detalle;
+        this.fecha = fecha;
+        this.nombre = nombre;
     }
 
 }
