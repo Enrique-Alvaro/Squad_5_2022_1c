@@ -3,8 +3,14 @@ import com.squad_5.recursos.Recursos.Models.Empleado;
 import com.squad_5.recursos.Recursos.Models.Horas;
 import com.squad_5.recursos.Recursos.Models.HorasACargarDTO;
 import com.squad_5.recursos.Recursos.Repositories.HorasRepository;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,15 +26,23 @@ public class HorasService {
     }
 
     public Horas cargarHoras(HorasACargarDTO datos) {
-        Horas nuevaHoras = new Horas(datos.legajo,
-                                    datos.horasTrabajadas,
-                                    datos.codigoTarea,
-                                    datos.codigoProyecto,
-                                    datos.detalle,
-                                    datos.fecha,
-                                    datos.nombre
-        );
-        return repository.save(nuevaHoras);
+        final String uri = "https://moduloproyectos.herokuapp.com/proyectos/"+datos.codigoProyecto+"/tareas/"+datos.codigoTarea+"/empleados/"+datos.legajo+"/exist";
+        RestTemplate restTemplate = new RestTemplate();
+        Boolean result = restTemplate.getForObject(uri, Boolean.class);
+
+        if (result){
+            Horas nuevaHoras = new Horas(datos.legajo,
+                    datos.horasTrabajadas,
+                    datos.codigoTarea,
+                    datos.codigoProyecto,
+                    datos.detalle,
+                    datos.fecha,
+                    datos.nombre
+            );
+            return repository.save(nuevaHoras);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No existe esta relacion");
+        }
     }
 
     public List<Horas> getHorasByLegajo(int legajo) {
