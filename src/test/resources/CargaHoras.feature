@@ -4,9 +4,6 @@ Feature: Hour operations
         When Trying to add a new hour register
         Then it should be saved on the database
 
-    Scenario: Unsuccessfully save a new Hour
-        When trying to add a new hour register without correct entry
-        Then it shouldn't be saved on the database
 
     Scenario: Obtaining hour registers
         Given a user has saved registers
