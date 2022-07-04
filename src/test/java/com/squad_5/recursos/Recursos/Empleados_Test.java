@@ -22,42 +22,14 @@ import org.junit.runner.RunWith;
 public class Empleados_Test {
     private EmpleadoService service = new EmpleadoService();
     private Empleado[] empleados;
-    @Then("a non-empy list is return")
-    public void a_non_empy_list_is_return() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
 
-    @Given("the person in the list")
-    public void the_person_in_the_list() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
 
-    @Then("their information is returned")
-    public void their_information_is_returned() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @Given("the person is not in the list")
-    public void the_person_is_not_in_the_list() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @Then("nothing is returned")
-    public void nothing_is_returned() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @When("consulto los empleados")
+    @When("i wish to obtain resources")
     public void buscarEmpleado(){
         empleados = service.getEmpleados();
     }
 
-    @Then("tengo una lista de empleados")
+    @Then("i got a list of employees")
     public void EmpleadosEnlistados(){
         Assert.assertNotNull(empleados);
     }

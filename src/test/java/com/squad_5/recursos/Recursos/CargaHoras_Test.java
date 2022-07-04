@@ -35,79 +35,80 @@ public class CargaHoras_Test extends CargaHorasServicesTest {
     @Autowired
     private HorasService horasService;
 
+    private HorasACargarDTO nuevaHoras() {
+        return new HorasACargarDTO(1,1,1,1,"", LocalDate.now(),"");
+    }
+
 
     @When("Trying to add a new hour register")
     public void trying_to_add_a_new_hour_register() {
-        nuevaHora = new HorasACargarDTO(1,1,1,1,"", LocalDate.now(),"");
+        nuevaHora = nuevaHoras();
         cargarHoras(nuevaHora);
     }
 
     @Then("it should be saved on the database")
     public void it_should_be_saved_on_the_database() {
         Assert.assertNotNull(getHorasByLegajo(1));
+        deleteHoras(getHorasByLegajo(1).get(0).id);
     }
 
 
     @Given("a user has saved registers")
     public void a_user_has_saved_registers() {
-        nuevaHora = new HorasACargarDTO(1,1,1,1,"", LocalDate.now(),"");
+        nuevaHora = nuevaHoras();
     }
 
-    @When("the route is called")
+    @When("the user searches by id")
     public void the_route_is_called() {
-
+        listaHoras = horasService.getHorasByLegajo(1);
     }
 
     @Then("it should return an non empty list")
     public void it_should_return_an_non_empty_list() {
-        Assert.assertNotNull(horasService.getHorasByLegajo(1));
+        Assert.assertNotNull(listaHoras);
+        deleteHoras(getHorasByLegajo(1).get(0).id);
     }
 
     @Given("a user has no hours registered")
     public void a_user_has_no_hours_registered() {
-
+        int idABorrar;
+        while (!getHorasByLegajo(1).isEmpty()) {
+            idABorrar = getHorasByLegajo(1).get(0).id;
+            deleteHoras(idABorrar);
+        }
     }
 
     @Then("it should return nothing")
     public void it_should_return_nothing() {
-        Assert.assertNull(horasService.getHorasByLegajo(2));
+        Assert.assertNull(getHorasByLegajo(1));
     }
 
     @Given("a user has an hour register")
     public void a_user_has_an_hour_register() {
-        nuevaHora = new HorasACargarDTO(1,3,1,1,"", LocalDate.now(),"");
-        horasService.cargarHoras(nuevaHora);
+        nuevaHora = nuevaHoras();
+        cargarHoras(nuevaHora);
     }
 
     @When("it is deleted")
     public void it_is_deleted() {
-        listaHoras = horasService.getHorasByLegajo(3);
-        horasService.deleteHoras(listaHoras.get(0).id);
+        listaHoras = getHorasByLegajo(1);
+        deleteHoras(listaHoras.get(0).id);
     }
 
     @Then("it doesn't appear anymore")
     public void it_doesn_t_appear_anymore() {
-        Assert.assertNull(getHorasByLegajo(3));
+        Assert.assertNull(getHorasByLegajo(1));
     }
 
     @Given("a row doesn't exist")
     public void a_row_doesn_t_exist() {
-        horas = null;
-    }
-
-    @When("trying to delete it")
-    public void trying_to_delete_it() {
-        deleteHoras(10);
-    }
-
-    @Then("it shouldn't do anything")
-    public void it_shouldn_t_do_anything() {
 
     }
+
 
     @Given("a row exists")
     public void a_row_exists() {
-        nuevaHora = new HorasACargarDTO(1,4,1,1,"", LocalDate.now(),"");
+        nuevaHora = nuevaHoras();
         cargarHoras(nuevaHora);
     }
 
@@ -133,8 +134,4 @@ public class CargaHoras_Test extends CargaHorasServicesTest {
         horas.horasTrabajadas = 0;
     }
 
-    @Then("nothing is updated")
-    public void nothing_is_updated() {
-
-    }
 }

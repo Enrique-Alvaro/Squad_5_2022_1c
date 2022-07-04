@@ -1,6 +1,5 @@
-Feature: obtener recursos de un modulo externo
+Feature: Obtaining resources from an external module
 
-  Scenario: Traer empleados de modulo externo
-    Given un empleado del area de recursos
-    When consulto los empleados
-    Then tengo una lista de empleados
+  Scenario: Obtaining resources
+    When i wish to obtain resources
+    Then i got a list of employees
