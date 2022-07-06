@@ -30,6 +30,19 @@ public class HorasService {
         RestTemplate restTemplate = new RestTemplate();
         Boolean result = restTemplate.getForObject(uri, Boolean.class);
 
+        Boolean valido = false;
+        Empleado[] empleados = empleadoService.getEmpleados();
+        for (int i = 0; i < empleados.length; i++) {
+            if (empleados[i].legajo == datos.legajo) {
+                valido = true;
+                break;
+            }
+        }
+
+        if(!valido) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No existe este empleado");
+        }
+
         if (result){
             Horas nuevaHoras = new Horas(datos.legajo,
                     datos.horasTrabajadas,
