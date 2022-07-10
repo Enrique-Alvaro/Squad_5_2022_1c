@@ -15,18 +15,18 @@ Feature: Hour operations
         When the user searches by id
         Then it should return nothing
 
-    Scenario: Deleting a row
+    Scenario: Deleting registers
         Given a user has an hour register
         When it is deleted
         Then it doesn't appear anymore
 
-    Scenario: Updating a row with full information
-        Given a row exists
+    Scenario: Updating registers with full information
+        Given a user has saved registers
         When trying to update with full information
-        Then the row is updated
+        Then the registers is updated
 
-    Scenario: Updating a row with partial information
-        Given a row exists
-        When trying to update
-        Then the row is updated
+    Scenario: Updating registers with partial information
+        Given a user has saved registers
+        When trying to update with partial information
+        Then the registers is updated
         

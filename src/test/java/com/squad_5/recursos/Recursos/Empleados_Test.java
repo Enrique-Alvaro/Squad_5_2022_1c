@@ -24,12 +24,12 @@ public class Empleados_Test {
     private Empleado[] empleados;
 
 
-    @When("i wish to obtain resources")
+    @When("wish to obtain resources")
     public void buscarEmpleado(){
         empleados = service.getEmpleados();
     }
 
-    @Then("i got a list of employees")
+    @Then("got a list of employees")
     public void EmpleadosEnlistados(){
         Assert.assertNotNull(empleados);
     }

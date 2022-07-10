@@ -20,6 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -41,7 +42,7 @@ public class CargaHoras_Test{
 
     private Horas horas;
     private HorasACargarDTO nuevaHora;
-    private List<Horas> listaHoras;
+    private List<Horas> listaHoras = new ArrayList<>();
     @InjectMocks
     private HorasService horasService = Mockito.mock(HorasService.class);
 
@@ -52,22 +53,29 @@ public class CargaHoras_Test{
 
     @When("Trying to add a new hour register")
     public void trying_to_add_a_new_hour_register() {
+        nuevaHora = nuevaHoras();
+        horas = new Horas(1,1,1,1,"",LocalDate.now(),"");
+        listaHoras.add(horas);
+        when(horasService.cargarHoras(nuevaHora)).thenReturn(horas);
+        Assert.assertNotNull(horasService.cargarHoras(nuevaHora));
     }
 
     @Then("it should be saved on the database")
     public void it_should_be_saved_on_the_database() {
-//        Assert.assertNotNull(horasService.getHorasByLegajo(1));
-//        horasService.deleteHoras(horasService.getHorasByLegajo(1).get(0).id);
-        nuevaHora = nuevaHoras();
-        when(horasService.cargarHoras(nuevaHora)).thenReturn(new Horas());
+        when(horasService.getHorasByLegajo(1)).thenReturn(listaHoras);
+        Assert.assertEquals(horasService.getHorasByLegajo(1),listaHoras);
 
-        Assert.assertNotNull(horasService.cargarHoras(nuevaHora));
     }
 
 
     @Given("a user has saved registers")
     public void a_user_has_saved_registers() {
         nuevaHora = nuevaHoras();
+        horas = new Horas(1,1,1,1,"",LocalDate.now(),"");
+        listaHoras.add(horas);
+        when(horasService.cargarHoras(nuevaHora)).thenReturn(horas);
+        Assert.assertNotNull(horasService.cargarHoras(nuevaHora));
+        when(horasService.getHorasByLegajo(1)).thenReturn(listaHoras);
     }
 
     @When("the user searches by id")
@@ -78,16 +86,11 @@ public class CargaHoras_Test{
     @Then("it should return an non empty list")
     public void it_should_return_an_non_empty_list() {
         Assert.assertNotNull(listaHoras);
-        horasService.deleteHoras(horasService.getHorasByLegajo(1).get(0).id);
     }
 
     @Given("a user has no hours registered")
     public void a_user_has_no_hours_registered() {
-        int idABorrar;
-        while (!horasService.getHorasByLegajo(1).isEmpty()) {
-            idABorrar = horasService.getHorasByLegajo(1).get(0).id;
-            horasService.deleteHoras(idABorrar);
-        }
+        when(horasService.getHorasByLegajo(1)).thenReturn(null);
     }
 
     @Then("it should return nothing")
@@ -98,15 +101,18 @@ public class CargaHoras_Test{
     @Given("a user has an hour register")
     public void a_user_has_an_hour_register() {
         nuevaHora = nuevaHoras();
-        when(horasService.cargarHoras(nuevaHora)).thenReturn(new Horas());
-
+        horas = new Horas(1,1,1,1,"",LocalDate.now(),"");
+        listaHoras.add(horas);
+        when(horasService.cargarHoras(nuevaHora)).thenReturn(horas);
         Assert.assertNotNull(horasService.cargarHoras(nuevaHora));
+        when(horasService.getHorasByLegajo(1)).thenReturn(listaHoras);
     }
 
     @When("it is deleted")
     public void it_is_deleted() {
         listaHoras = horasService.getHorasByLegajo(1);
         horasService.deleteHoras(listaHoras.get(0).id);
+        when(horasService.getHorasByLegajo(1)).thenReturn(null);
     }
 
     @Then("it doesn't appear anymore")
@@ -114,38 +120,32 @@ public class CargaHoras_Test{
         Assert.assertNull(horasService.getHorasByLegajo(1));
     }
 
-    @Given("a row doesn't exist")
-    public void a_row_doesn_t_exist() {
-
-    }
-
-
-    @Given("a row exists")
-    public void a_row_exists() {
-        nuevaHora = nuevaHoras();
-        horasService.cargarHoras(nuevaHora);
-    }
-
     @When("trying to update with full information")
     public void trying_to_update_with_full_information() {
-        listaHoras = horasService.getHorasByLegajo(4);
+        listaHoras = horasService.getHorasByLegajo(1);
         horas = listaHoras.get(0);
         horas.horasTrabajadas = 10;
+        when(horasService.updateHoras(horas.id, horas)).thenReturn(horas);
         horasService.updateHoras(horas.id, horas);
     }
 
-    @Then("the row is updated")
+    @Then("the registers is updated")
     public void the_row_is_updated() {
-        listaHoras = horasService.getHorasByLegajo(4);
+        listaHoras = horasService.getHorasByLegajo(1);
         horas = listaHoras.get(0);
+
         Assert.assertEquals(10, horas.horasTrabajadas);
     }
 
-    @When("trying to update")
+    @When("trying to update with partial information")
     public void trying_to_update() {
-        listaHoras = horasService.getHorasByLegajo(4);
+        listaHoras = horasService.getHorasByLegajo(1);
         horas = listaHoras.get(0);
-        horas.horasTrabajadas = 0;
+        horas.horasTrabajadas = 10;
+        Horas h = new Horas();
+        h.horasTrabajadas = 10;
+        when(horasService.updateHoras(horas.id, h)).thenReturn(horas);
+        horasService.updateHoras(horas.id, horas);
     }
 
 }
