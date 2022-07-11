@@ -43,6 +43,7 @@ public class CargaHoras_Test{
     private Horas horas;
     private HorasACargarDTO nuevaHora;
     private List<Horas> listaHoras = new ArrayList<>();
+    private List<Horas> expectedHours = new ArrayList<>();
     @InjectMocks
     private HorasService horasService = Mockito.mock(HorasService.class);
 
@@ -51,10 +52,10 @@ public class CargaHoras_Test{
     }
 
 
-    @When("Trying to add a new hour register")
-    public void trying_to_add_a_new_hour_register() {
+    @When("Trying to add a new hour register with {int} hours")
+    public void trying_to_add_a_new_hour_register_with_hours(Integer workedHours) {
         nuevaHora = nuevaHoras();
-        horas = new Horas(1,1,1,1,"",LocalDate.now(),"");
+        horas = new Horas(1,workedHours,1,1,"",LocalDate.now(),"");
         listaHoras.add(horas);
         when(horasService.cargarHoras(nuevaHora)).thenReturn(horas);
         Assert.assertNotNull(horasService.cargarHoras(nuevaHora));
@@ -68,22 +69,22 @@ public class CargaHoras_Test{
     }
 
 
-    @Given("a user has saved registers")
-    public void a_user_has_saved_registers() {
+    @Given("a user has loaded {int} hours for Project {int} on Task {int}")
+    public void a_user_has_loaded_hours_for_project_on_task(Integer workedHours, Integer projectCode, Integer taskCode) {
         nuevaHora = nuevaHoras();
-        horas = new Horas(1,1,1,1,"",LocalDate.now(),"");
+        horas = new Horas(1,workedHours,taskCode,projectCode,"",LocalDate.now(),"");
         listaHoras.add(horas);
         when(horasService.cargarHoras(nuevaHora)).thenReturn(horas);
         Assert.assertNotNull(horasService.cargarHoras(nuevaHora));
         when(horasService.getHorasByLegajo(1)).thenReturn(listaHoras);
     }
 
-    @When("the user searches by id")
+    @When("the user searches their workload")
     public void the_route_is_called() {
         listaHoras = horasService.getHorasByLegajo(1);
     }
 
-    @Then("it should return an non empty list")
+    @Then("it should return a list of their worked hours")
     public void it_should_return_an_non_empty_list() {
         Assert.assertNotNull(listaHoras);
     }
@@ -93,22 +94,27 @@ public class CargaHoras_Test{
         when(horasService.getHorasByLegajo(1)).thenReturn(null);
     }
 
-    @Then("it should return nothing")
-    public void it_should_return_nothing() {
-        Assert.assertNull(horasService.getHorasByLegajo(1));
+    @When("the user searches their worked hours")
+    public void the_user_searches_their_worked_hours() {
+        expectedHours = horasService.getHorasByLegajo(1);
     }
 
-    @Given("a user has an hour register")
-    public void a_user_has_an_hour_register() {
+    @Then("it should return nothing")
+    public void it_should_return_nothing() {
+        Assert.assertNull(expectedHours);
+    }
+
+    @Given("a user has loaded {int} hours for Project {int} in Task {int}")
+    public void a_user_has_loaded_hours(Integer workedHours, Integer projectCode, Integer taskCode) {
         nuevaHora = nuevaHoras();
-        horas = new Horas(1,1,1,1,"",LocalDate.now(),"");
+        horas = new Horas(1,workedHours,taskCode,projectCode,"",LocalDate.now(),"");
         listaHoras.add(horas);
         when(horasService.cargarHoras(nuevaHora)).thenReturn(horas);
         Assert.assertNotNull(horasService.cargarHoras(nuevaHora));
         when(horasService.getHorasByLegajo(1)).thenReturn(listaHoras);
     }
 
-    @When("it is deleted")
+    @When("that load is deleted")
     public void it_is_deleted() {
         listaHoras = horasService.getHorasByLegajo(1);
         horasService.deleteHoras(listaHoras.get(0).id);
@@ -120,32 +126,65 @@ public class CargaHoras_Test{
         Assert.assertNull(horasService.getHorasByLegajo(1));
     }
 
-    @When("trying to update with full information")
-    public void trying_to_update_with_full_information() {
+    @Given("a user has loaded {int} hours in Task {int} of Project {int}")
+    public void a_user_has_loaded_hours_in_task_of_project(
+            Integer workedHours,
+            Integer taskCode,
+            Integer projectCode) {
+        horas = new Horas(1,workedHours,taskCode,projectCode,"",LocalDate.now(),"");
+        listaHoras.add(horas);
+        when(horasService.getHorasByLegajo(1)).thenReturn(listaHoras);
+    }
+
+    @When("updating hours to {int}, Project to {int}, Task to {int} and description to {string}")
+    public void updating_hours_to_project_to_task_to_and_description_to(
+            Integer newWorkedHours,
+            Integer newProjectCode,
+            Integer newTaskCode,
+            String newDescription) {
         listaHoras = horasService.getHorasByLegajo(1);
         horas = listaHoras.get(0);
-        horas.horasTrabajadas = 10;
+        horas.horasTrabajadas = newWorkedHours;
+        horas.codigoProyecto = newProjectCode;
+        horas.codigoTarea = newTaskCode;
+        horas.detalle = newDescription;
         when(horasService.updateHoras(horas.id, horas)).thenReturn(horas);
         horasService.updateHoras(horas.id, horas);
     }
 
-    @Then("the registers is updated")
-    public void the_row_is_updated() {
+    @Then("the update is reflected")
+    public void the_update_is_reflected() {
         listaHoras = horasService.getHorasByLegajo(1);
         horas = listaHoras.get(0);
 
         Assert.assertEquals(10, horas.horasTrabajadas);
+        Assert.assertEquals(9, horas.codigoProyecto);
+        Assert.assertEquals(2, horas.codigoTarea);
+        Assert.assertEquals("Create login", horas.detalle);
     }
 
-    @When("trying to update with partial information")
-    public void trying_to_update() {
+    @Given("a user has loaded {int} hours on Task {int} for Project {int}")
+    public void a_user_has_loaded_hours_on_task_for_project(
+            Integer workedHours,
+            Integer taskCode,
+            Integer projectCode) {
+        horas = new Horas(1,workedHours,taskCode,projectCode,"",LocalDate.now(),"");
+        listaHoras.add(horas);
+        when(horasService.getHorasByLegajo(1)).thenReturn(listaHoras);
+    }
+    @When("updating only the hours to {int}")
+    public void updating_only_the_hours_to(Integer newWorkedHours) {
         listaHoras = horasService.getHorasByLegajo(1);
         horas = listaHoras.get(0);
-        horas.horasTrabajadas = 10;
-        Horas h = new Horas();
-        h.horasTrabajadas = 10;
-        when(horasService.updateHoras(horas.id, h)).thenReturn(horas);
+        horas.horasTrabajadas = newWorkedHours;
+        when(horasService.updateHoras(horas.id, horas)).thenReturn(horas);
         horasService.updateHoras(horas.id, horas);
     }
+    @Then("the hours are updated")
+    public void the_hours_are_updated() {
+        listaHoras = horasService.getHorasByLegajo(1);
+        horas = listaHoras.get(0);
 
+        Assert.assertEquals(11, horas.horasTrabajadas);
+    }
 }
