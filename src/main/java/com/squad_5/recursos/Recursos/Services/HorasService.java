@@ -26,6 +26,10 @@ public class HorasService {
     }
 
     public Horas cargarHoras(HorasACargarDTO datos) {
+        if(datos.horasTrabajadas > 24){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Las horas trabajadas son invalidas");
+        }
+
         final String uri = "https://moduloproyectos.herokuapp.com/proyectos/"+datos.codigoProyecto+"/tareas/"+datos.codigoTarea+"/empleados/"+datos.legajo+"/exist";
         RestTemplate restTemplate = new RestTemplate();
         Boolean result = restTemplate.getForObject(uri, Boolean.class);
